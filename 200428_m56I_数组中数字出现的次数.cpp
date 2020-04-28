@@ -71,6 +71,32 @@ public:
 // 2. int g1, g2, allxor = 0; 只赋值allxor,不赋值g1 g2
 
 
+
+
+// Universal:
+
+// 使用字典直接求只出现一次的数字即可。
+
+// 时间复杂度是O(N), 空间复杂度是 O(N)。
+
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        map<int, int> count;
+        for (int n : nums) count[n] ++;
+        vector<int> res;
+        for (auto p : count)
+            if (p.second == 1)
+                res.push_back(p.first);
+        return res;
+    }
+};
+
+// 作者：fuxuemingzhu
+// 链接：https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/solution/zi-dian-vs-yi-huo-fu-li-kou-shua-ti-mo-ban-by-fuxu/
+// 来源：力扣（LeetCode）
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 
+
 //nice codes:
 // class Solution {
 // public:
