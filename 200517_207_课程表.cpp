@@ -1,21 +1,31 @@
-// 25. K 个一组翻转链表
-// 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+// 207. 课程表
+// 你这个学期必须选修 numCourse 门课程，记为 0 到 numCourse-1 。
 
-// k 是一个正整数，它的值小于或等于链表的长度。
+// 在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们：[0,1]
 
-// 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+// 给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？
 
  
 
-// 示例：
+// 示例 1:
 
-// 给你这个链表：1->2->3->4->5
+// 输入: 2, [[1,0]] 
+// 输出: true
+// 解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。
+// 示例 2:
 
-// 当 k = 2 时，应当返回: 2->1->4->3->5
+// 输入: 2, [[1,0],[0,1]]
+// 输出: false
+// 解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。
+ 
 
-// 当 k = 3 时，应当返回: 3->2->1->4->5
+// 提示：
 
-// https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
+// 输入的先决条件是由 边缘列表 表示的图形，而不是 邻接矩阵 。详情请参见图的表示法。
+// 你可以假定输入的先决条件中没有重复的边。
+// 1 <= numCourses <= 10^5
+
+// https://leetcode-cn.com/problems/course-schedule/
 
 
 
@@ -23,93 +33,11 @@
 // 执行结果：通过
 // 执行用时 :28 ms, 在所有 C++ 提交中击败了33.95%的用户
 // 内存消耗 :8.9 MB, 在所有 C++ 提交中击败了100.00%的用户
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
-    // 翻转一个子链表，并且返回新的头与尾
-    pair<ListNode*, ListNode*> myReverse(ListNode* head, ListNode* tail) {
-        ListNode* prev = tail->next;
-        ListNode* p = head;
-        while (prev != tail) {
-            ListNode* nex = p->next;
-            p->next = prev;
-            prev = p;
-            p = nex;
-        }
-        return {tail, head};
-    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
 
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* hair = new ListNode(0);
-        hair->next = head;
-        ListNode* pre = hair;
-
-        while (head) {
-            ListNode* tail = pre;
-            // 查看剩余部分长度是否大于等于 k
-            for (int i = 0; i < k; ++i) 
-            {
-                tail = tail->next;
-                if (!tail) {
-                    return hair->next;
-                }
-            }
-            ListNode* nex = tail->next;
-            tie(head, tail) = myReverse(head, tail);
-            // 把子链表重新接回原链表
-            pre->next = head;
-            tail->next = nex;
-            pre = tail;
-            head = tail->next;
-        }
-
-        return hair->next;
     }
 };
 
-
 //nice codes:
-
-// powcai
-
-// 递归写法
-
-// class Solution:
-//     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
-
-//         # 判断是否有k个节点
-//         def cal_len(head):
-//             p = head
-//             l = 0
-//             while p:
-//                 l += 1
-//                 p = p.next
-//                 if l >= k: return True
-//             return False
-
-//         # 翻转k个节点
-//         def reverseK(head, k):
-//             prev, cur = None, head
-//             while k:
-//                 nxt = cur.next
-//                 cur.next = prev
-//                 prev = cur
-//                 cur = nxt
-//                 k -= 1
-//             return prev, cur
-
-//         # 递归
-//         def dfs(head, k):
-//             if not cal_len(head): return head
-//             prev, cur = reverseK(head, k)
-//             head.next = dfs(cur, k)
-//             return prev
-        
-//         return dfs(head, k)
